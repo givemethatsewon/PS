@@ -31,13 +31,9 @@ struct TreeNode* deleteNode(struct TreeNode* root, int key) {
 
         // Node with only one child or no child
         if (root->left == NULL) {
-            struct TreeNode* temp = root->right;
-            free(root);
-            return temp;
+            return root->right;
         } else if (root->right == NULL) {
-            struct TreeNode* temp = root->left;
-            free(root);
-            return temp;
+            return root->left;
         } else {
             // Node with two children: Get the inorder successor (smallest in the right subtree)
             struct TreeNode* temp = findMinNode(root->right);
