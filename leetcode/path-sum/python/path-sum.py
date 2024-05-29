@@ -15,11 +15,8 @@ class Solution(object):
             return False
         targetSum -= root.val
         
-        if not root.left and not root.right:
-            if targetSum == 0:
-                return True
-            else:
-                return False
+        if not root.left and not root.right and targetSum == 0:
+            return True
 
         if self.hasPathSum(root.left, targetSum):
             return True
@@ -27,4 +24,4 @@ class Solution(object):
         if self.hasPathSum(root.right, targetSum):
             return True
         
-        
+        return False
