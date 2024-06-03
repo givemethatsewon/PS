@@ -4,5 +4,5 @@
 
 ## 성능
 
-- Time: 885ms
+- Time: 122ms
 - Memory: 16MB

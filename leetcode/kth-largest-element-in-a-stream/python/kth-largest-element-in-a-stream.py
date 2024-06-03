@@ -8,24 +8,22 @@ class KthLargest(object):
         self.k = k
         self.sorted_nums = sorted(nums)
 
-
     def add(self, val):
         """
         :type val: int
         :rtype: int
         """
-        self.sorted_nums.append(val)
-        self.sorted_nums.sort()
-        return self.sorted_nums[-self.k]
+        nums = self.sorted_nums
 
+        start, end = 0, len(nums) - 1
+        mid = None
+        while start <= end:
+            mid = (start + end) // 2
+            if nums[mid] < val:
+                start = mid + 1
+            else:
+                end = mid - 1
 
+        nums.insert(start, val)
 
-
-
-
-
-
-
-# Your KthLargest object will be instantiated and called as such:
-# obj = KthLargest(k, nums)
-# param_1 = obj.add(val)
+        return nums[-self.k]
