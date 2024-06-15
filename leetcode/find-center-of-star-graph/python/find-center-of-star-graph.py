@@ -4,11 +4,8 @@ class Solution(object):
         :type edges: List[List[int]]
         :rtype: int
         """
-        graph = {}
+        graph = {i : [] for i in range(1, len(edges) + 2)}
         for u, v in edges:
-            if u not in graph: graph[u] = []
-            if v not in graph: graph[v] = []
-        
             graph[u].append(v)
             graph[v].append(u)
         
