@@ -1,20 +1,22 @@
+from typing import *
 import heapq
 
-def solution(scoville, K):
-    answer = 0
+def solution(scovile: List[int] , K: int) -> int:
+    heapq.heapify(scovile)
     
-    heapq.heapify(scoville)
-    spicy = 0
-    while scoville[0] < K:
-        if len(scoville) < 2:
+    cnt = 0 # 섞은 횟수
+    # 모든 음식의 스코빌 지수가 K 이상이 될 때까지
+    n = heapq.heappop(scovile)
+    while n < K:
+        # 모든 음식의 스코빌 지수를 k 이상으로 만들 수 없는 경우
+        if len(scovile) == 0:
             return -1
-
-        small1 = heapq.heappop(scoville)
-        small2 = heapq.heappop(scoville)
         
-        mixed = small1 + small2 * 2
-        
-        heapq.heappush(scoville, mixed)
-        answer += 1
+        cnt += 1    # 횟수 증가
+        # scovile 교체
+        new_scovile = n + heapq.heappop(scovile) * 2
+        heapq.heappush(scovile, new_scovile)
+        n = heapq.heappop(scovile)
     
-    return answer
+    
+    return cnt
