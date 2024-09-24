@@ -4,7 +4,7 @@ from collections import deque
 def solution(maps: List[str]) -> List[int]:
     ROWS, COLS = len(maps), len(maps[0])
     grid = [list(row) for row in maps]
-    visited = [[False]*COLS for _ in range(ROWS)]
+    visited = set()
     islands = []
     
     directions = [(-1, 0), (1, 0), (0, 1), (0, -1)]
@@ -12,7 +12,7 @@ def solution(maps: List[str]) -> List[int]:
     def bfs(r, c):
         queue = deque()
         queue.append((r, c))
-        visited[r][c] = True
+        visited.add((r, c))
         total_food = int(grid[r][c])
         
         while queue:
@@ -22,17 +22,17 @@ def solution(maps: List[str]) -> List[int]:
                 if (
                     0 <= nx < ROWS and
                     0 <= ny < COLS and
-                    not visited[nx][ny] and
+                    (nx, ny) not in visited and
                     grid[nx][ny] != 'X'
                 ):
-                    visited[nx][ny] = True
+                    visited.add((nx, ny))
                     total_food += int(grid[nx][ny])
                     queue.append((nx, ny))
         return total_food
     
     for r in range(ROWS):
         for c in range(COLS):
-            if not visited[r][c] and grid[r][c] != 'X':
+            if (r, c) not in visited and grid[r][c] != 'X':
                 total_food = bfs(r, c)
                 islands.append(total_food)
     
