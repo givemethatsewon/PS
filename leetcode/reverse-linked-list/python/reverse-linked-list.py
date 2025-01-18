@@ -9,6 +9,21 @@ class Solution(object):
         :type head: Optional[ListNode]
         :rtype: Optional[ListNode]
         """
+        curr = head
+        temp = None
+
+        while curr != None:
+            next_node = curr.next
+            curr.next = temp
+            temp = curr
+            curr = next_node
+        
+        return temp
+        
+        
+
+
+"""
         # head를 타고 이동하면서 뒤집자.
         curr = head
         temp = None
@@ -20,3 +35,4 @@ class Solution(object):
             curr = next_node # 다음 노드로 이동
             
         return temp
+"""
