@@ -1,32 +1,35 @@
+from typing import *
 import math
 from itertools import permutations
 
-def is_prime(n: int) -> bool:
-    if n <= 1: 
+def solution(numbers: str) -> int:
+    cnt = 0
+    number_list: List[str] = [s for s in numbers]
+    nums = set()
+    for i in range(1, len(numbers) + 1):
+        perms = permutations(number_list, i)
+        nums.update(int(''.join(perm)) for perm in perms)
+        print(nums)
+    for num in nums:
+        if isPrime(num):
+            cnt += 1
+    
+    return cnt
+
+def isPrime(num: int) -> bool:
+    if num <= 1:
         return False
-    elif n == 2:
+    elif num == 2:
         return True
-    elif n % 2 == 0: 
+    elif num % 2 == 0:
         return False
-    for i in range(3, int(n**(0.5)) + 1, 2):
-        if n % i == 0: 
-            return False
+    else:
+        # 홀수만 처리
+        end = int(math.sqrt(num))
+        for i in range(3, end + 1, 2):
+            if num % i == 0:
+                return False
     return True
 
-def solution(numbers: str) -> int:
-    digits = list(numbers)
-    possible_numbers = set()
-    for i in range(1, len(digits) + 1):
-        # 순열 이용
-        perms = permutations(digits, i)
-        for p in perms: # p: tuple
-            num = int(''.join(p))
-            possible_numbers.add(num)
-            
-    primes = set()
-    for num in possible_numbers:
-        # 소수 검사
-        if is_prime(num):
-            primes.add(num)
-    
-    return len(primes)
+                
+        
