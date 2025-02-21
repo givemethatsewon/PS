@@ -1,22 +1,28 @@
-class Solution:
+class Solution(object):
     def numIslands(self, grid):
-        def dfsMark(graph, r, c):
-            if min(r, c) < 0 or r == len(graph) or c == len(graph[0]) or graph[r][c] == "0":
-                return  # base case
-            if graph[r][c] == "1":
-                graph[r][c] = "0"
-
-            # 상하 좌우 탐색
-            dfsMark(graph, r+1, c)
-            dfsMark(graph, r-1, c)
-            dfsMark(graph, r, c+1)
-            dfsMark(graph, r, c-1)
-
-        count = 0
         ROWS, COLS = len(grid), len(grid[0])
-        for m in range(ROWS):
-            for n in range(COLS):
-                if grid[m][n] == "1":
-                    dfsMark(grid, m, n)
-                    count += 1
-        return count
+        r, c = ROWS - 1, COLS - 1
+        islands = 0
+
+        def dfs(grid, r, c):
+            if (
+                r == ROWS or c == COLS or
+                min(r, c) < 0 or
+                grid[r][c] == '0'
+            ): return
+
+            grid[r][c] = '0' # 방문 처리
+            dfs(grid, r+1, c)
+            dfs(grid, r-1, c)
+            dfs(grid, r, c+1)
+            dfs(grid, r, c-1)
+        
+
+        for i in range(ROWS):
+            for j in range(COLS):
+                if grid[i][j] == '1':
+                    dfs(grid, i, j)
+                    islands += 1
+        
+        return islands
+        
