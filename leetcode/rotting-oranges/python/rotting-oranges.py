@@ -1,6 +1,3 @@
-from collections import deque
-
-
 class Solution(object):
     def orangesRotting(self, grid):
         """
@@ -8,37 +5,42 @@ class Solution(object):
         :rtype: int
         """
         ROWS, COLS = len(grid), len(grid[0])
-        queue = deque() # 현재 위치에서 방문 가능한 위치들 저장
-        time = 0 # 시간 기록
+        seconds = 0
+        queue = deque()
+        put = None
+
+        # 썩은 바나나 좌표 삽입
+        for i in range(ROWS):
+            for j in range(COLS):
+                if grid[i][j] == 2:
+                    queue.append((i, j))
         
-        if not [num for row in grid for num in row if num == 1]:
-            return time
-        
-        # 시작 점 찾기
-        starting_points = [(i, j) for i in range(ROWS) for j in range(COLS) if grid[i][j] == 2]        
-        for start in starting_points:
-            queue.append(start) # 시작점 큐에 삽입    
-        
-    
-        directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
-        
+
+        directions = [[1, 0], [-1, 0], [0, 1], [0, -1]]
         while queue:
-            for _ in range(len(queue)):
-                r, c = queue.popleft()
+            put = False
+            for i in range(len(queue)): # queue의 스냅샷 -> breadth 추적
+                r, c = queue.popleft()                
                 
                 for dr, dc in directions:
-                    off_r, off_c = r + dr, c + dc
+                    nxt_r, nxt_c = r + dr, c+ dc
                     if (
-                        min(off_r, off_c) < 0 or
-                        off_r == ROWS or off_c == COLS or
-                        grid[off_r][off_c] == 0 or  # 빈 곳
-                        grid[off_r][off_c] == 2     # 이미 썩은 오렌지
-                    ):
-                        continue
-                    
-                    # 주변에 썩지 않은 오렌지가 있는 경우
-                    queue.append((off_r, off_c))
-                    grid[off_r][off_c] = 2 # 썩은 오렌지로 마킹
-            time += 1
+                        min(nxt_r, nxt_c) < 0 or
+                        nxt_r == ROWS or nxt_c == COLS or
+                        grid[nxt_r][nxt_c] == 0 or grid[nxt_r][nxt_c] == 2
+                    ): continue
+
+                    put = True
+                    queue.append((nxt_r, nxt_c))
+                    grid[nxt_r][nxt_c] = 2
             
-        return -1 if [num for row in grid for num in row if num == 1] else time - 1
+            if put:
+                seconds += 1
+
+        # 스캔        
+        for i in range(ROWS):
+            for j in range(COLS):
+                if grid[i][j] == 1:
+                    return -1
+
+        return seconds
