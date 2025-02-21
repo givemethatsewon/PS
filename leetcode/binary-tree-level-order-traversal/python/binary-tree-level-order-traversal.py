@@ -4,24 +4,28 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
-class Solution:
-    def levelOrder(self, root):
-        result_list = []  # 한 레벨을 리스트로 바꿔 저장할 리스트(숫자)
-        queue = deque()
+from collections import deque
 
+class Solution(object):
+    def levelOrder(self, root):
+        queue = deque()
+        ans = []
+        
         if root:
             queue.append(root)
 
-        while len(queue) > 0:
-            level_list = []
+        while queue:
+            # 처리해야 할 노드만큼 반복
+            nodes = []
             for i in range(len(queue)):
-                current = queue.popleft()
-                level_list.append(current.val)
-                if current.left:
-                    queue.append(current.left)
-                if current.right:
-                    queue.append(current.right)
-            result_list.append(level_list)
-
-        return result_list
+                # 큐에서 노드 꺼내기
+                curr = queue.popleft()
+                nodes.append(curr.val) # process
+                
+                if curr.left: queue.append(curr.left)
+                if curr.right: queue.append(curr.right)
+            
+            # 반복문 종료 후 nodes의 스냅샷 ans에 넣기
+            ans.append(nodes)
         
+        return ans
