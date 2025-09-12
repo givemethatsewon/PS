@@ -12,6 +12,6 @@ for i in range(2, int(sqrt(n)) + 1):
         for j in range(i*i, n + 1, i):
             primes[j] = False
 
-prime_nums = [i for i, is_prime in enumerate(primes) if is_prime and i >= m]
+prime_nums = [i for i in range(n+1) if i >= m and primes[i]]
 
 print(*prime_nums, sep='\n')
